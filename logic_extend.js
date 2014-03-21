@@ -9,10 +9,10 @@
 
       //SQL CONNECTION
         this.connection = {
-          host     : '62.193.206.112',
-          user     : 'my289845',
-          password : 'ww34S0_5',
-          database : 'my289845',
+          host     : '',
+          user     : '',
+          password : '',
+          database : '',
           insecureAuth : true
         };
         this.objectsQuery = "SELECT so.*, sc.vchClientName, sc.bStatus AS bClientStatus FROM `supportobject` AS so INNER JOIN supportclient AS sc WHERE so.iIDClient = sc.iIDClient";
