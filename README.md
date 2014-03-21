@@ -2,6 +2,7 @@ Realtime Node.js message server.
 
 With this you can send messages to connected users in realtime using Node.js and sockjs: https://github.com/sockjs
 
+File: web.js
 ```Javascript
 var express = require('express');
 var sockjs  = require('sockjs');
@@ -40,6 +41,7 @@ app.get('/update/:object', function(req, res){
 });
 ```
 
+File:index.html
 ```html
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="/scripts/tracker.js"></script>
