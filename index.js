@@ -43,15 +43,15 @@
       if(this.redisDB != null){this.redisDB.end();console.log("Closing redisDB - pub/sub");}
       if(this.redisPub != null){this.redisPub.end();console.log("Closing redisPublisher");}
             
-      this.redisDB = this.redis.createClient(9891, 'spadefish.redistogo.com');
-      this.redisPub = this.redis.createClient(9891, 'spadefish.redistogo.com');
+      this.redisDB = this.redis.createClient(9891, 'REDIS SERVER');
+      this.redisPub = this.redis.createClient(9891, 'REDIS SERVER');
 
-      this.redisDB.auth('69f41d95cfbdd542751e5d8c200d3cd3', function(err){
+      this.redisDB.auth('REDIS AUTH TOKEN', function(err){
         if(err){throw err;}
         supra.redisDB.subscribe("broadcast");
         supra.redisDB.on("message", supra.onRedisMessage.bind({_supra:supra}));
       });
-      this.redisPub.auth('69f41d95cfbdd542751e5d8c200d3cd3', function(err){
+      this.redisPub.auth('REDIS AUTH TOKEN', function(err){
         if(err){throw err;}
       });
 
