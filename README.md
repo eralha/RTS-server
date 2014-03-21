@@ -2,6 +2,43 @@ Realtime Node.js message server.
 
 With this you can send messages to connected users in realtime using Node.js and sockjs: https://github.com/sockjs
 
+```Javascript
+var express = require('express');
+var sockjs  = require('sockjs');
+var broadcaster = require('broadcast');
+
+
+//Express server
+var app = express.createServer(
+  express.static(__dirname + '/public')
+);
+
+//Change this secret to invalidate all previous generated api keys.
+var secret = "YOUR SECRET";
+var msg_server = broadcaster.createServer(app, '/rpc', secret);
+
+// listen to the PORT given to us in the environment
+//var port = 8080;
+var port = 3030;//for localhost using
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
+
+app.get('/', function (req, res) {
+    res.sendfile(__dirname + '/index.html');
+});
+
+app.get('/genkey', function(req, res){
+    var resp = msg_server.genKey([req.param("domain")]);
+    res.send(resp);
+});
+
+//Listening for update order from client manager
+app.get('/update/:object', function(req, res){
+    var resp = msg_server.try_call(req.params.object);
+    res.send(resp);
+});
+```
 
 ```html
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
