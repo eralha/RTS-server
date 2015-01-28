@@ -1,0 +1,67 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="/scripts/tracker.js"></script>
+<script>
+  var connection = new tracker({
+	  			url:'http://localhost:8080/rpc',
+                keys:{
+                  "localhost" : "377a704b4591a27749ef212bc6da9e1904a863f174e81d6ee0431e54d817a94d"
+                }});
+      
+      //Regista um evento para quando a ligação é estabelecida
+      //e podemos começar a subscrever canais e interagir.
+	  connection.addEventListener("open", function(e){
+
+	  	$("#users").html("Connected");
+
+	  	  //Evento dispara quando subscrevemos um canal com sucesso
+	  	  connection.addEventListener("chanelSubscribed", function(e){
+	  	  	//alert(e.data);
+	  	  });
+
+	  	  //Evento dispara quando removemos uma subscrição com sucesso
+	  	  connection.addEventListener("chanelUnSubscribed", function(e){
+	  	  	//alert(e.data);
+	  	  });
+
+	  	  //Evento dispara quando recebemos um shared object
+	  	  //para todas as ligações de um canal
+	  	  connection.addEventListener("SOReceived", function(e){
+	  	  	alert("Canal:"+e.data.chanel+"  Num So´s:"+e.data.so.length);
+	  	  });
+
+	  	  //Estas funcações são usadas para subscrever um canal com
+	  	  //as permissões "read" ou "write"
+			  connection.subscribeChanel("chat", "write", function(e){
+			  	if($("#users").html() == "Connected"){$("#users").html("");}
+			  	$("#users").html($("#users").html()+e.data.c+": "+e.data.msg+"<br />");
+			  });
+			  connection.subscribeChanel("connConnected", "write", function(e){
+			  	//alert(e.data.msg);
+			  });
+			  connection.subscribeChanel("connDisconnected", "write", function(e){
+			  	//alert(e.data.msg);
+			  });
+
+		  //Regista um objecto a ser partilhado para esta ligação
+		  	connection.setSharedObject({user:"Nome de utilizador", rand:Math.random()*50});
+
+
+	  });
+
+	  (function($) {
+        $(document).ready(function() {
+            $("#send").click(function(){
+            	connection.send("chat", $("#txtMsg").val());
+            });
+            $("#getSo").click(function(){
+            	//Faz um request ao shared object de um canal
+            	connection.getChanelSO("chat");
+            });
+	    });
+	   })(jQuery);
+</script>
+<div>
+	Mensagem: <input type="text" id="txtMsg" name="txtMsg" /> <input type="submit" id="send" name="send" value="enviar" />
+	<input type="submit" id="getSo" name="getSo" value="Get SO" />
+</div>
+<div id="users" style="margin-top:10px;width:280px;background-color:#fff;border:solid 1px;padding:5px;">Connecting</div>
