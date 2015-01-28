@@ -1,0 +1,24 @@
+{
+  "name": "RTS-SERVER",
+  "scripts": {
+    "start": "web.js"
+  },
+  "version": "0.0.1-160",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "subdomain": "er-test",
+  "bundledDependencies": [
+    "er-rts",
+    "express",
+    "sockjs",
+    "redis"
+  ],
+  "env": {
+    "npm_config_rebuild_bundle": false
+  },
+  "dependencies": {
+    "express": "2.4.x",
+    "sockjs": "0.3.x"
+  }
+}
