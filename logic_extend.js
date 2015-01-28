@@ -8,7 +8,7 @@
       //Controler pointer
         this.controler = _controler;
     }
-    //Reload SQL after order from external scource
+    
     LogicExtend.prototype.execute = function(action){
       return "fail";
     };
